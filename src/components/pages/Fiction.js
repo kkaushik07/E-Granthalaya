@@ -1,12 +1,10 @@
-import Genre from '../genre.js'
-import Header from '../header.js'
+import Books from '../book.js'
+
 
 const AssignedBooks =()=>{
 
-	
 	return  <>
-	
-	<Genre id='Chem1'/>
+	<Books id='Science'/>
 	</>
 }
 

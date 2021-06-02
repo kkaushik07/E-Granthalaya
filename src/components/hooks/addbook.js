@@ -8,4 +8,11 @@ const addBook = (values)=>{
    }).then(()=>{alert(Title+"added")})
 }
 
+export const lendBook = (values) => {
+    
+        var docRef = projectFirestore.collection("issueBooks")
+        var result = docRef.add(values).then(()=> alert(values.Title,'lended')  ).catch((err)=>console.log(err))
+    }
+
+
 export default addBook

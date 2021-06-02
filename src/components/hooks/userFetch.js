@@ -8,7 +8,7 @@ var docRef = projectFirestore.collection("users").doc(projectAuth.currentUser.ui
 
  var result = await docRef.get()
 	if (result) {
-      console.log("Document data:", result.data());
+      //console.log("Document data:", result.data());
         let userData = result.data()
         return userData
     	} else {

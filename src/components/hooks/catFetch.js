@@ -8,7 +8,7 @@ import {projectFirestore} from '../../firebase/config';
                  
 
     useEffect(()=>{
-     projectFirestore.collection("books").where("name", "==", id)
+     projectFirestore.collection("books").where("Genre", "==", id)
     .onSnapshot((snap)=>{
                 let data = []
                 snap.forEach(doc=>{

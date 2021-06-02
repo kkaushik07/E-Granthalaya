@@ -11,9 +11,9 @@ const Card = (props) => {
    
 
     return <div className="card">
-        <Link to={props.link} >
+       
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNUbJzHsKxJZMFOttSrteR5_KbuLk89kvhw&usqp=CAU"/>
-            </Link>
+           
         <div class="content">
         <Link to={'/catagories/'+props.genre} >{props.genre}</Link>
         </div>

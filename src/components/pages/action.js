@@ -1,4 +1,4 @@
-import Genre from '../genre.js'
+import Books from '../book.js'
 import Header from '../header.js'
 
 const Action =()=>{
@@ -6,7 +6,7 @@ const Action =()=>{
 	
 	return  <>
 	
-	<Genre id='maths1'/>
+	<Books id='maths1'/>
 	</>
 }
 

@@ -4,40 +4,45 @@ import {SignOut} from './hooks/authHook.js'
 import {projectAuth} from '../firebase/config.js'
 import { useState } from 'react';
 import { Fetching } from './hooks/userFetch';
-const Header = () => {
+import { connect } from 'react-redux';
+import { signOut } from '../redux/actions/fetchUser';
 
-	const [isLoggedIn,setIsLoggedIn] = useState( projectAuth.currentUser)
-	const [admin, setAdmin]=useState()
 
-	
-	projectAuth.onAuthStateChanged(function(user){
-		if(user){setIsLoggedIn(true)}
-		else{setIsLoggedIn(false)}
-	})
+const Header = (props) => {
+
+	// const [isLoggedIn,setIsLoggedIn] = useState()
+	// const [admin, setAdmin]=useState()
+
+	const user = props.data
+	// projectAuth.onAuthStateChanged(function(user){
+	// 	if(user){setIsLoggedIn(true)}
+	// 	else{setIsLoggedIn(false)}
+	// })
 	
 	const signOut= ()=>{
 		SignOut()
+		props.signOut()
 	}
-	//console.log(isLoggedIn)	
+	console.log(props.data)	
 	
-	if(isLoggedIn){
-	Fetching().then((data) => {
-		//console.log(data.admin)
-		setAdmin(data.admin)
-		})
-		
-		if(admin){
+	if(user){
+	 if(user.hasOwnProperty('admin')){
 		return (<div>
-			<header className="header" >
-			   <h1> Library App </h1>
-			  </header>
-			  <div  className="nav">
-			  <Link to= '/' >Home</Link>
-			  <Link to = { isLoggedIn? '/my-account':'/signup'}> My Account </Link>
-		   	  {isLoggedIn && <Link to ='/'  onClick={signOut}  className='ryt'> SignOut </Link>}		   
-			  </div>
-		   </div>
-		)}}
+			 		<header className="header" >
+					   <h1> Library App </h1>
+			 		  </header>
+			 		  <div  className="nav">
+			 		  <Link to= '/' >Home</Link>
+			 		  <Link to = { user ? '/my-account':'/signup'}> My Account </Link>
+					  <Link to = '/admin/userDetails'>Search User </Link>
+					  <Link to = '/admin/addBook'>Add Book</Link>
+
+			 	   	  {user && <Link to ='/'  onClick={signOut}  className='ryt'> SignOut </Link>}		   
+			 		  </div>
+			 	   </div>
+			 	)
+	 	}}
+		
 		
 
 	return (<div>
@@ -46,14 +51,19 @@ const Header = () => {
    	</header>
    	<div  className="nav">
    	<Link to= '/' >Home</Link>
-   	<Link to = { isLoggedIn? '/my-account':'/signup'}> My Account </Link>
+   	<Link to = { user ? '/my-account':'/signup'}> My Account </Link>
    	<Link to ='/assignedbooks'>Assigned Books</Link>
-   	{!isLoggedIn && <Link to ='/signup' className='ryt'> SignIn </Link>}
-	{isLoggedIn && <Link to ='/'  onClick={signOut}  className='ryt'> SignOut </Link>}
+   	{ !user && <Link to ='/signup' className='ryt'> SignIn </Link>}
+	{ user && <Link to ='/'  onClick={signOut}  className='ryt'> SignOut </Link>}
     <Link to='/' className='ryt'>Search</Link>
     
    	</div>
     </div>)
 }
 
-export default Header
+const mapStateToProps = state =>{
+	console.log(state)
+	return {data: state.userData}
+}
+
+export default connect(mapStateToProps,{signOut})(Header)

@@ -9,21 +9,11 @@ import Signup from './components/pages/signUp.js'
 import Account from './components/pages/myAccount';
 import AdminHome from './components/pages/admin/admin';
 import Action from './components/pages/action';
-import { useState } from 'react';
-import { projectAuth } from './firebase/config';
 import AddBook from './components/pages/admin/addBook';
 import UserDetails from './components/pages/admin/userDetails';
 
 
 const App = () => {
-
-  // const [isLoggedIn,setIsLoggedIn] = useState( projectAuth.currentUser)
-
-  // projectAuth.onAuthStateChanged(function(user){
-	// 	if(user){setIsLoggedIn(true)}
-	// 	else{setIsLoggedIn(false)}
-	// })
-	
 
   return (<div className= 'container'>
     <BrowserRouter>
@@ -36,12 +26,7 @@ const App = () => {
     <Route path = '/catagories/maths1' component={Action} />
     <Route path = '/my-account'  component = {Account} /> 
     <Route path = '/signup'  component = {Signup} /> 
-    <Route path = '/catagories/Chem1' component = {Assignedbooks} />
-    
-    
-
-    
-    
+    <Route path = '/catagories/Science' component = {Assignedbooks} />    
     </BrowserRouter>
     </div>
   );
