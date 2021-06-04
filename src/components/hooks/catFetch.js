@@ -12,7 +12,9 @@ import {projectFirestore} from '../../firebase/config';
     .onSnapshot((snap)=>{
                 let data = []
                 snap.forEach(doc=>{
-                data.push(doc.data())
+                  const book = doc.data()
+                  book.bookId = doc.id
+                 data.push(book)
                 })
                 setDocs(data)
             })

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import  firebase from 'firebase';
+import firebase from 'firebase';
 import { projectAuth, projectFirestore } from '../firebase/config.js'
 import Card from './card.js'
 import CatFetch from './hooks/catFetch.js'
@@ -7,29 +7,52 @@ import { lendBook } from './hooks/addbook.js';
 import { lendedBooks } from '../redux/actions/fetchUser.js';
 
 
-const Books =(props)=>{
+const Books = (props) => {
 
 
-	const{docs}=CatFetch(props.id)
+	const { docs } = CatFetch(props.id)
+	const books = (props.issued).filter((x) => !x.hasOwnProperty('Return'))
+	console.log(books)
 
-	
-	return  docs.map( doc => {
-		const values = {Title:doc.Title , Author: doc.Author , UserId: projectAuth.currentUser.uid , issuedOn: firebase.firestore.Timestamp.now()  }
-		return 	<div>
-			<Card genre={doc.genre}/>
+		var today = new Date().toLocaleDateString()
+		var returnBy = new Date()
+		returnBy.setDate(new Date().getDate() +40).toLocaleString()
+
+		console.log ('dates', today ,returnBy)
+
+	return docs.map(doc => {
+		const values = {
+			Title: doc.Title,
+			Author: doc.Author,
+			UserId: projectAuth.currentUser.uid,
+			issuedOn: today ,
+			//ReturnBy : Date.getDate()+1,
+			bookId : doc.bookId
+		}
+		return <div>
+			<Card genre={doc.genre} />
 			<button
-			 onClick={()=>{console.log(values)
-			lendBook(values)
-			props.lendedBooks()
-			}
-			}>Lend</button>
+				onClick={() => {
+					if (books.length > 0) {
+						const book = books.filter((book) => book.Title === doc.Title)
+						if (book.length === 0) {
+							lendBook(values)
+							props.lendedBooks()
+						} else { alert('book already issued') }
+					}
+					else {
+						lendBook(values)
+						props.lendedBooks()
+					}
+				}
+				}>Lend</button>
 		</div>
 	})
 }
 
-const mapStateToProps = state=>{
+const mapStateToProps = state => {
 	console.log(state)
-	return state
+	return { issued: state.lendBook }
 }
 
-export default connect(mapStateToProps,{lendedBooks})(Books)
+export default connect(mapStateToProps, { lendedBooks })(Books)

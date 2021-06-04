@@ -1,6 +1,7 @@
 import {useEffect} from 'react'
 import { connect } from 'react-redux'
 import { lendedBooks } from '../redux/actions/fetchUser.js'
+import { returnBook } from './hooks/addbook.js'
 
 const style = {
 	textAlign:'center',
@@ -13,16 +14,12 @@ const style = {
 	margin :`${4}px`
 }
 
-const Books = (props)=>{
-
-		
-		
-	
+const LendedBooks = (props)=>{
 	
 	const books = props.books
 	
-
 	return books.map( doc => {
+		if (!doc.Return ){
 		return 	<div className='item'>
 			<img className="ui small image" 
 			src='yeah.jpeg' alt='bookimg' />
@@ -30,10 +27,14 @@ const Books = (props)=>{
 			 <div className="header">{doc.Title}</div>
 			 <div className="header">{doc.Author}</div>
 			 <div className="header">{doc.issuedOn.toDate().toDateString()}</div>
-			<button onClick={()=>console.log(doc.bookId)} >Return</button>
+			 
+			<button onClick={()=>{console.log(doc.issueId)
+				returnBook(doc)
+				props.lendedBooks()}
+			} >Return</button>
 			  </div>
 			
-	</div>
+	</div>}
 	})
 
 }
@@ -42,4 +43,5 @@ const mapStateToProps = state=>{
 	console.log(state)
 	return {books: state.lendBook }
 }
-export default connect(mapStateToProps,{})(Books)
+
+export default connect(mapStateToProps,{lendedBooks})(LendedBooks)

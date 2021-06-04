@@ -14,7 +14,6 @@ const userReducer =  (user = null, action) => {
   if (action.type === 'CREATE_USER'){
     return action.payload
   }
-
   else {
     return user
   }
@@ -27,7 +26,7 @@ const searchReducer = (result= null, action) =>{
   else {return result}
 }
 
-const lendedBookReducer = (result = null,action)=>{
+const lendedBookReducer = (result = [],action)=>{
   if(action.type === 'LEND_BOOK'){
     return action.payload
   }
