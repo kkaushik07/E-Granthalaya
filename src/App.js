@@ -15,7 +15,7 @@ import UserDetails from './components/pages/admin/userDetails';
 
 const App = () => {
 
-  return (<div className= 'container'>
+  return (<div>
     <BrowserRouter>
     <Header/>
     <Route path = '/' exact component = {Home} />

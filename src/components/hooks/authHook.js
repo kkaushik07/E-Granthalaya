@@ -29,6 +29,7 @@ export const SignIn = async (values) =>{
 	// 	return user
 	// })
 	if(result){
+		console.log(result)
 		return result.user.uid 
 	}
 	else{

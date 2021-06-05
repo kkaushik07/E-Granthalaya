@@ -41,11 +41,13 @@ export const createUser = (values) => {
 
 export const search = (item) => {
     return async function (dispatch, getState) {
-        var query = projectFirestore.collection(item.collection).where('email', '==', item.name)
+        var query = projectFirestore.collection(item.collection).where(item.criteria, '==', item.name)
 
         var result = await query.get().then((querySnapshot) => {
             const data = []
-            querySnapshot.forEach(doc => data.push(doc.data()))
+            querySnapshot.forEach(doc =>{ const doct = doc.data()
+                doct.Id = doc.id
+                data.push(doct)})
             return data
         })
 
@@ -72,9 +74,9 @@ export const signOut = () => {
     }
 }
 
-export const lendedBooks = () => {
+export const lendedBooks = (x) => {
     return async function (dispatch, getState) {
-        var query = projectFirestore.collection('issueBooks').where('UserId', '==', projectAuth.currentUser.uid)
+        var query = projectFirestore.collection('issueBooks').where('UserId', '==', x)
 
         var result = await query.get().then((querySnapshot) => {
             const data = []
@@ -87,6 +89,13 @@ export const lendedBooks = () => {
         })
 
         dispatch({ type: 'LEND_BOOK', payload: result })
+    }
+}
+
+export const reset = (x)=>{
+    return{
+        type: x,
+        payload:[]
     }
 }
 

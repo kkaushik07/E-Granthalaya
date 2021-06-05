@@ -7,7 +7,10 @@ const Account = ()=>{
 
     return <div>
         <UserDisplay/>
+        <div className='ui items segments'>
         <LendedBooks/>
+        </div>
+        
     </div>
 }
 

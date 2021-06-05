@@ -2,6 +2,7 @@ import {useEffect} from 'react'
 import { connect } from 'react-redux'
 import { lendedBooks } from '../redux/actions/fetchUser.js'
 import { returnBook } from './hooks/addbook.js'
+import Item from './itemDisplay.js'
 
 const style = {
 	textAlign:'center',
@@ -19,22 +20,38 @@ const LendedBooks = (props)=>{
 	const books = props.books
 	
 	return books.map( doc => {
-		if (!doc.Return ){
-		return 	<div className='item'>
-			<img className="ui small image" 
-			src='yeah.jpeg' alt='bookimg' />
-			<div className="content" style={{border:`${2}px solid black` , margin:`${4}px`}}>
-			 <div className="header">{doc.Title}</div>
-			 <div className="header">{doc.Author}</div>
-			 <div className="header">{doc.issuedOn.toDate().toDateString()}</div>
+		if (!doc.ReturnedOn ){
+		const Duedate = doc.Duedate.toDate().getTime()
+		const today = new Date().getTime()
+		 
+		let fine = 0
+		if (today>Duedate){
+			fine = ((today - Duedate)/(1000*60*60*24))*10
+		}
+		return  <div className='ui item raised segment'>
+			
+			
+			<Item Title={doc.Title} Author={doc.Author}
+			 Duedate={doc.Duedate.toDate().toLocaleDateString()}/>
+
+			 {/* <img className="ui small image" 
+			 src='yeah.jpeg' alt='bookimg' />
+			 <div className="content" style={{border:`${2}px solid black` , margin:`${4}px`}}>
+			  <div className="header">{doc.Title}</div>
+			  <div className="header">{doc.Author}</div>
+			  <div className="header">{doc.issuedOn}</div>
+			  <div className="header">{doc.Duedate.toDate().toLocaleDateString()}</div>
+			  <div className="header">{fine}</div> */}
+
 			 
-			<button onClick={()=>{console.log(doc.issueId)
+			<button className='ui right button' onClick={()=>{console.log(doc.issueId)
 				returnBook(doc)
-				props.lendedBooks()}
+				props.lendedBooks(doc.UserId)}
 			} >Return</button>
 			  </div>
 			
-	</div>}
+	// </div>
+}
 	})
 
 }

@@ -20,10 +20,10 @@ export const lendBook = (values) => {
 
 export const returnBook = (doc) => {
     var docRef = projectFirestore.collection("issueBooks").doc(doc.issueId)
-    var result = docRef.update({Return: firebase.firestore.Timestamp.now()})
+    var result = docRef.update({ReturnedOn: firebase.firestore.Timestamp.now()})
     .then(()=>alert('book returned'))
     .catch(err=>console.log(err))
-    var countRef =  projectFirestore.collection('books').doc(doc.bookId)
+    var counter =  projectFirestore.collection('books').doc(doc.bookId)
                     .update({Quantity: firebase.firestore.FieldValue.increment(1)})
 
 }

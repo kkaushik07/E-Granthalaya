@@ -4,13 +4,13 @@ import Card from './card.js'
 
  	
 	return (<>
-	<div className='ui link cards'>
+	<div className='ui link cards'> 
 	<Card genre='Science' />
 	<Card genre='Science'/>
 	<Card genre='maths1'/>
 	<Card genre='maths1'/>
 
-	</div>
+	 </div> 
 	
 	</>)
 }

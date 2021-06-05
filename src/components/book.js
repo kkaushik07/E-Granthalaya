@@ -11,14 +11,14 @@ const Books = (props) => {
 
 
 	const { docs } = CatFetch(props.id)
-	const books = (props.issued).filter((x) => !x.hasOwnProperty('Return'))
+	const books = (props.issued).filter((x) => !x.hasOwnProperty('ReturnedOn'))
 	console.log(books)
 
 		var today = new Date().toLocaleDateString()
-		var returnBy = new Date()
-		returnBy.setDate(new Date().getDate() +40).toLocaleString()
+		var Duedate = new Date()
+		Duedate.setDate(new Date().getDate() +7).toLocaleString()
 
-		console.log ('dates', today ,returnBy)
+		console.log ('dates', today ,Duedate)
 
 	return docs.map(doc => {
 		const values = {
@@ -26,7 +26,7 @@ const Books = (props) => {
 			Author: doc.Author,
 			UserId: projectAuth.currentUser.uid,
 			issuedOn: today ,
-			//ReturnBy : Date.getDate()+1,
+			Duedate : Duedate,
 			bookId : doc.bookId
 		}
 		return <div>
@@ -37,12 +37,12 @@ const Books = (props) => {
 						const book = books.filter((book) => book.Title === doc.Title)
 						if (book.length === 0) {
 							lendBook(values)
-							props.lendedBooks()
+							props.lendedBooks(values.UserId)
 						} else { alert('book already issued') }
 					}
 					else {
 						lendBook(values)
-						props.lendedBooks()
+						props.lendedBooks(values.UserId)
 					}
 				}
 				}>Lend</button>

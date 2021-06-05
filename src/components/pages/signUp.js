@@ -40,7 +40,7 @@ const Signup = (props) => {
 		SignIn(values).then((x) => {
 			console.log(x)
 			props.fetchUser(x)
-			props.lendedBooks()
+			props.lendedBooks(x)
 		})
 	}
 

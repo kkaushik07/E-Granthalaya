@@ -1,19 +1,6 @@
-.container{
-	margin: 0 20px;
-	
+
+height{
+	height: 100vh;
 }
 
- header{
-	text-align: center;
-	color: green
-}
-
-.nav > h2{
-	display: inline;
-	margin : 0 10px;
-}
-
-.ryt {
-	float: right;
-}
 

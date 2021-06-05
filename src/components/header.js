@@ -1,7 +1,7 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import '../App.css';
-import {SignOut} from './hooks/authHook.js'
-import {projectAuth} from '../firebase/config.js'
+import { SignOut } from './hooks/authHook.js'
+import { projectAuth } from '../firebase/config.js'
 import { useState } from 'react';
 import { Fetching } from './hooks/userFetch';
 import { connect } from 'react-redux';
@@ -18,52 +18,53 @@ const Header = (props) => {
 	// 	if(user){setIsLoggedIn(true)}
 	// 	else{setIsLoggedIn(false)}
 	// })
-	
-	const signOut= ()=>{
+
+	const signOut = () => {
 		SignOut()
 		props.signOut()
 	}
-	console.log(props.data)	
-	
-	if(user){
-	 if(user.hasOwnProperty('admin')){
-		return (<div>
-			 		<header className="header" >
-					   <h1> Library App </h1>
-			 		  </header>
-			 		  <div  className="nav">
-			 		  <Link to= '/' >Home</Link>
-			 		  <Link to = { user ? '/my-account':'/signup'}> My Account </Link>
-					  <Link to = '/admin/userDetails'>Search User </Link>
-					  <Link to = '/admin/addBook'>Add Book</Link>
+	console.log(props.data)
 
-			 	   	  {user && <Link to ='/'  onClick={signOut}  className='ryt'> SignOut </Link>}		   
-			 		  </div>
-			 	   </div>
-			 	)
-	 	}}
-		
-		
+	if (user) {
+		if (user.hasOwnProperty('admin')) {
+			return (
+
+				<div class="ui green inverted secondary massive stackable menu">
+
+					<Link to='/' className='item'>
+						<i class="home icon"></i>
+					    Home</Link>
+					<Link to={user ? '/my-account' : '/signup'} className='item'> My Account </Link>
+					<Link to='/admin/userDetails' className='item'>Search User </Link>
+					<Link to='/admin/addBook' className='item'>Add Book</Link>
+					{user && <Link to='/' onClick={signOut} className=' right item'> SignOut </Link>}
+				</div>
+
+			)
+		}
+	}
+
+
 
 	return (<div>
-     <header className="header" >
-    	<h1> Library App </h1>
-   	</header>
-   	<div  className="nav">
-   	<Link to= '/' >Home</Link>
-   	<Link to = { user ? '/my-account':'/signup'}> My Account </Link>
-   	<Link to ='/assignedbooks'>Assigned Books</Link>
-   	{ !user && <Link to ='/signup' className='ryt'> SignIn </Link>}
-	{ user && <Link to ='/'  onClick={signOut}  className='ryt'> SignOut </Link>}
-    <Link to='/' className='ryt'>Search</Link>
-    
-   	</div>
-    </div>)
+
+		<div className=" ui massive violet inverted secondary stackable menu">
+			<Link to='/' className='item'>
+				<i class="home icon"></i>
+					    Home</Link>
+			<Link to={user ? '/my-account' : '/signup'} className='item'> My Account </Link>
+			<Link to='/assignedbooks' className='item'>Assigned Books</Link>
+			{!user && <Link to='/signup' className='right item'> SignIn </Link>}
+			{user && <Link to='/' onClick={signOut} className=' right item'> SignOut </Link>}
+
+
+		</div>
+	</div>)
 }
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
 	console.log(state)
-	return {data: state.userData}
+	return { data: state.userData }
 }
 
-export default connect(mapStateToProps,{signOut})(Header)
+export default connect(mapStateToProps, { signOut })(Header)
