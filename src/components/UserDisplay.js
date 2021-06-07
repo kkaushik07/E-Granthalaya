@@ -1,108 +1,65 @@
-import React, {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Input from "./input";
-import {Fetching} from './hooks/userFetch.js'
+import { Fetching } from './hooks/userFetch.js'
 import '../App.css';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 
 
-const UserDisplay = ()=>{
+const UserDisplay = (props) => {
 
-	const data = {fullName:'1' , img:'2', email: "3",mobileNumber:'4',address:"5" }//initial data
-	const [edit,SetEdit] = useState(null)
-	const [user,setUser]= useState(data) //saving user data
-	useEffect(()=>{
-		 Fetching().then((data) => {setUser(data)
-				console.log('usestate'+ data)})
-	},[]) 
-	
-	const handleInputChange =(e)=>{
-		const {name,value} = e.target
-		setUser({
-			...data,
-			[name]:value
-		})
+	const user = props.user
+	const boxShadow = {
+		boxShadow: `${0} ${4}px ${8}px ${0} rgba(${0}, ${0}, ${0}, ${0.2}),
+    ${0} ${6}px ${20}px ${0} rgba(${0}, ${0}, ${0}, ${0.19})`
 	}
 
+	if (!user) {
+		return <Redirect to='/signup' />
+	}
 
-	
+	// 	return	Object.keys(props.user).map((key) => <div>  <h2> {key}: {props.user[key]}</h2>
+	// 			{/* <Input name={key}
+	// 			label={key}
+	// 			placeholder={key}
+	// 			id={key}
+	// 			value={user[key]}
+	// onChange={handleInputChange} /> } */}
+	// 		 <a><i className="fas fa-pencil-alt" onClick={()=>SetEdit(key)} ></i></a></div>);
 
-	return	Object.keys(user).map((key) => <div>  <h2> {key}: {user[key]}</h2>
-			{/* <Input name={key}
-			label={key}
-			placeholder={key}
-			id={key}
-			value={user[key]}
-onChange={handleInputChange} /> } */}
-		 <a><i className="fas fa-pencil-alt" onClick={()=>SetEdit(key)} ></i></a></div>);
+	return (<>
+		<div className=' mr-auto' style={{ marginTop: `${30}px`, padding: `${10}px`, boxShadow: boxShadow.boxShadow, height: `${100}%` }}>
+			<h1> Peronal Information </h1>
+			<div className="ui middle aligned divided list">
+				<div className="item">
+
+					<div className="content">
+						<div className="header">Name</div>{user && <span>{user.fullName}</span>}
+					</div>
+				</div>
+				<div className="item">
+					<div className="content">
+						<div className="header">Email</div>{user && <span>{user.email}</span>}
+
+					</div>
+				</div>
+				<div className="item">
+					<div className="content">
+						<div className="header">MobileNumber</div>{user && <span>{user.mobileNumber}</span>}
+					</div>
+				</div>
+			</div>
+
+		</div>
 
 
-	// return(<div  >
-			
-	// 		{edit !=='fullName' ? <h2>Name: {user.fullName}</h2>:<Input name='fullName'
-	// 		label="Name:"
-	// 		placeholder='Name'
-	// 		id="Name"
-	// 		value={user.fullName}
-	// 		onChange={handleInputChange} /> }
-	// 		 <a><i className="fas fa-pencil-alt" onClick={()=>SetEdit('fullName')} ></i></a>
-	// 		<h2>Email: {user.email}</h2>
-	// 		<a><i className="fas fa-pencil-alt" ></i></a>
-	// 		<h2>Mobile: {user.mobileNumber}</h2>
-	// 		<a><i className="fas fa-pencil-alt" ></i></a>
-	// 		<h2>Address: {user.address}</h2>
-	// 		<a><i className="fas fa-pencil-alt" ></i></a>
-	// 		<button onClick={()=>SetEdit('fullName')} >update</button>
-	// 		</div>
-	// 	)
-
-	// if (edit === true){
-	// 	return(
-	// 		< div style={{display:'flex', flexDirection:'row', justifyContent:'space-around' }}>
-	// 	    <div>
-	// 		<h2 style={{textAlign:'center'}}>update</h2>
-	// 		<form  >
-	// 		<Input 
-	// 		name='fullName'
-	// 		label="Name:"
-	// 		placeholder='Name'
-	// 		id="Name"
-	// 		value={user.fullName}
-	// 		onChange={handleInputChange}  /> <br/>
-
-	// 		<Input 
-	// 		name="email"
-	// 		label="Email-Id:"
-	// 		type='email'
-	// 		placeholder='Email-Id'
-	// 		id="Email-Id"
-	// 		value={user.email}
-	// 		onChange={handleInputChange}  />
-
-	// 		<Input 
-	// 		name = 'mobileNumber'
-	// 		label="Mobile Number:"
-	// 		placeholder='Mobile Number'
-	// 		id="Mobile Number"
-	// 		value={user.mobileNumber}
-	// 		onChange={handleInputChange}  /><br/>
-
-			
-	// 		<br/>
-
-	// 		<Input 
-	// 		name='address'
-	// 		label="Address:"
-	// 		placeholder='Address'
-	// 		id="Address"
-	// 		type="textArea"
-	// 		value={user.address}
-	// 		onChange={handleInputChange}  />
-
-	// 		<button type='submit' > SignUp </button>
-	// 		</form>
-	// 		</div>
-	// 	 </div>
-	// 	)
-	// }
+	</>)
 }
 
-export default UserDisplay
+const mapStateToProps = state => {
+	console.log(state)
+	return { user: state.userData }
+}
+
+export default connect(mapStateToProps)(UserDisplay)
+

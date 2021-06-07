@@ -1,4 +1,6 @@
 import { combineReducers } from "redux";
+import {persistReducer} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import { projectAuth, projectFirestore } from "../../firebase/config";
 
 const userReducer =  (user = null, action) => {
@@ -33,9 +35,16 @@ const lendedBookReducer = (result = [],action)=>{
   else {return result}
 }
 
+const persistConfig ={
+  key:'root',
+  storage,
+  whitelist:['userData','lendBook','searchResult']
+}
 
-export default combineReducers({
+const reducers = combineReducers({
   userData: userReducer,
   searchResult : searchReducer,
   lendBook : lendedBookReducer
 })
+
+export default persistReducer(persistConfig, reducers);

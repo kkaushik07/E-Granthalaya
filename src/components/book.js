@@ -19,6 +19,7 @@ const Books = (props) => {
 		Duedate.setDate(new Date().getDate() +7).toLocaleString()
 
 		console.log ('dates', today ,Duedate)
+		
 
 	return docs.map(doc => {
 		const values = {
@@ -29,9 +30,9 @@ const Books = (props) => {
 			Duedate : Duedate,
 			bookId : doc.bookId
 		}
-		return <div>
-			<Card genre={doc.genre} />
-			<button
+		return <div className='d-flex  '>
+			<Card genre={doc.genre} Title={doc.Title} Author={doc.Author}  />
+			<button className="btn btn-primary"
 				onClick={() => {
 					if (books.length > 0) {
 						const book = books.filter((book) => book.Title === doc.Title)

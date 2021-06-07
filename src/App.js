@@ -11,6 +11,7 @@ import AdminHome from './components/pages/admin/admin';
 import Action from './components/pages/action';
 import AddBook from './components/pages/admin/addBook';
 import UserDetails from './components/pages/admin/userDetails';
+import Catagory from './components/catagory';
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
     <Route path = '/catagories/maths1' component={Action} />
     <Route path = '/my-account'  component = {Account} /> 
     <Route path = '/signup'  component = {Signup} /> 
+    <Route path = '/catagory'  component = {Catagory} /> 
     <Route path = '/catagories/Science' component = {Assignedbooks} />    
     </BrowserRouter>
     </div>

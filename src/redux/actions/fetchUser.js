@@ -60,7 +60,11 @@ export const search = (item) => {
 export const fetchUser = (x) => {
     return async function (dispatch, getState) {
         var docRef = projectFirestore.collection("users").doc(x);
-        var result = await docRef.get(x).then((doc) => doc.data())
+        var result = await docRef.get(x).then((doc) => {const doct = doc.data()
+                    doct.Id = x
+                    return doct
+        }
+        )
 
         dispatch({ type: 'LOGIN_USER', payload: result })
     }

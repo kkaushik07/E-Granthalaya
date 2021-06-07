@@ -18,21 +18,30 @@ const style = {
 const LendedBooks = (props)=>{
 	
 	const books = props.books
+
+	const boxShadow = {boxShadow: `${0} ${4}px ${8}px ${0} rgba(${0}, ${0}, ${0}, ${0.2}),
+		${0} ${6}px ${20}px ${0} rgba(${0}, ${0}, ${0}, ${0.19})`}
 	
 	return books.map( doc => {
 		if (!doc.ReturnedOn ){
-		const Duedate = doc.Duedate.toDate().getTime()
+		// const Duedate = doc.Duedate
 		const today = new Date().getTime()
 		 
-		let fine = 0
-		if (today>Duedate){
-			fine = ((today - Duedate)/(1000*60*60*24))*10
-		}
-		return  <div className='ui item raised segment'>
+		// let fine = 0
+		// if (today>Duedate){
+		// 	fine = ((today - Duedate)/(1000*60*60*24))*10
+		// }
+		
+		
+		
+		return  <div className='ui item ' style={boxShadow}>
 			
 			
 			<Item Title={doc.Title} Author={doc.Author}
-			 Duedate={doc.Duedate.toDate().toLocaleDateString()}/>
+			//  Duedate={doc.Duedate}
+			//  Fine ={fine}
+			/>
+			 
 
 			 {/* <img className="ui small image" 
 			 src='yeah.jpeg' alt='bookimg' />
@@ -44,7 +53,7 @@ const LendedBooks = (props)=>{
 			  <div className="header">{fine}</div> */}
 
 			 
-			<button className='ui right button' onClick={()=>{console.log(doc.issueId)
+			<button className='ui right violet button' style={{height:`${50}px`,width:`${110}px`, margin:'auto' }}  onClick={()=>{console.log(doc.issueId)
 				returnBook(doc)
 				props.lendedBooks(doc.UserId)}
 			} >Return</button>
