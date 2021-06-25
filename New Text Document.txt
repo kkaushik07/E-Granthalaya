@@ -1,0 +1,20 @@
+onChangeSearchText(text) {
+    if (text.length > 0 && this.state.data.length > 0) {
+      let filteredData = [];
+      this.state.data.forEach((element) => {
+        if (this.state.type == 9) {
+          if (
+            element.booking_number.toLowerCase().includes(text.toLowerCase())
+          ) {
+            filteredData.push(element);
+          }
+        } else {
+          if (element.name.toLowerCase().includes(text.toLowerCase())) {
+            filteredData.push(element);
+          }
+        }
+      });
+      this.setState({ filteredData, isFilterActive: true });
+    } else {
+      this.setState({ filteredData: [], isFilterActive: false });
+    }

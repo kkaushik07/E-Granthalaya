@@ -1,9 +1,9 @@
 import firebase from 'firebase'
-import { connect } from 'react-redux'
-import { projectFirestore } from "../../firebase/config"
+import { useState,useEffect } from 'react'
+import { projectAuth, projectFirestore } from "../../firebase/config"
 
 
-const addBook = (values)=>{
+export const addBook = (values)=>{
     const{ Title,Author,Genre,Quantity} = values 
    projectFirestore.collection('books').doc().set({
     Title,Author,Genre,Quantity
@@ -29,4 +29,35 @@ export const returnBook = (doc) => {
 }
 
 
-export default addBook
+export const sendFine = (props) =>{
+    
+    var docRef = projectFirestore.collection('users').doc(props.Id)
+
+    var result = docRef.update({totalFine : props.totalFine}).then(()=> alert(props.totalFine)
+        )
+}
+
+const FetchingBooks = (collection)=>{
+
+	const [docs,setDocs]=useState([])
+
+	useEffect(()=>{
+		var docRef = projectFirestore.collection(collection)
+			docRef.onSnapshot((snap)=>{
+				let data = []
+				snap.forEach(doc=>{
+				const book = doc.data()
+				 book.bookId = doc.id
+				data.push(book)
+				})
+				setDocs(data)
+			})
+		},[collection])
+
+	return {docs} 
+}
+
+export default FetchingBooks
+
+
+

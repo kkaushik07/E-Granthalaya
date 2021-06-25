@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+
 import '../App.css';
 import { SignOut } from './hooks/authHook.js'
-import { projectAuth } from '../firebase/config.js'
-import { useState } from 'react';
-import { Fetching } from './hooks/userFetch';
-import { connect } from 'react-redux';
 import { signOut } from '../redux/actions/fetchUser';
 
 
@@ -53,7 +51,7 @@ const Header = (props) => {
 					    Home</Link>
 			<Link to='/catagory' className='item'> <i className='th icon'></i> Catagory</Link>
 			<Link to={user ? '/my-account' : '/signup'} className='item'> <i className='user icon'></i>My Account </Link>
-			{user && <Link to='/assignedbooks' className='item'>Assigned Books</Link>}
+			{/* {user && <Link to='/assignedbooks' className='item'>Assigned Books</Link>} */}
 			{!user && <Link to='/signup' className='right item'><i className='sign in alternate icon'></i> SignIn </Link>}
 			{user && <Link to='/' onClick={signOut} className=' right item'><i className='sign out alternate icon'></i> SignOut </Link>}
 

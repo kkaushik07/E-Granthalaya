@@ -1,14 +1,22 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { search, lendedBooks, reset } from "../../../redux/actions/fetchUser"
-import Input from "../../input"
-import LendedBooks from '../../bookDisplay'
+import {returnBook} from '../../hooks/booksHook'
+import { userSearch, lendedBooks, reset } from "../../../redux/actions/fetchUser"
+
+import { Redirect } from "react-router"
 
 const UserDetails = (props) => {
+
+    const data =props.data
+
+    
     const [name, setName] = useState('')
     const handleChange = (e) => {
         setName(e.target.value)
     }
+
+    
+
 
     const boxShadow = {
         boxShadow: `${0} ${4}px ${8}px ${0} rgba(${0}, ${0}, ${0}, ${0.2}),
@@ -16,18 +24,11 @@ const UserDetails = (props) => {
     }
     const books = props.books
     const user = props.user
-    const returnedBooks = () => {
-        if (books.length > 0) {
-            console.log(books)
-            var y = books.filter((x) => x.hasOwnProperty('ReturnedOn'))
-            console.log(y)
-        }
-        else {
-            props.lendedBooks(user[0].Id)
+       
 
-        }
-    }
 
+    if (data) {
+		if (data.hasOwnProperty('admin')){
     return (<>
         <div style={{ margin: `${20}px` }}>
             <h1 style={{ color: 'white', fontSize: `${2.5}rem`, textShadow: `${-2}px ${2}px ${10}px green`, marginTop: `${5}px`, textAlign: 'center' }}>Search User</h1>
@@ -46,43 +47,85 @@ const UserDetails = (props) => {
                             onChange={handleChange} />
                     </div>
                 </div>
-                <button className='ui green submit button ' onClick={() => {
-                    props.search({ name, collection: 'users', criteria: 'email' })
-                    props.reset('LEND_BOOK')
-                }}>Search</button>
+                <button className='ui green submit button ' onClick={  () => {
+                     
+                    props.userSearch({ name, collection: 'users', criteria: 'email' })
+                    // console.log('from button',user[0])
+                     //props.lendedBooks(user[0].Id)    
+                }}>userSearch</button>
             </div>
 
-
-            <div className='d-flex flex-row ' style={{ marginTop: `${30}px` , }}>
+        
+         <div className='d-flex flex-row ' style={{ marginTop: `${30}px` , }}>
                 <div className=' mr-auto' style={{ marginTop: `${30}px`,padding: `${10}px`, boxShadow: boxShadow.boxShadow , height:`${100}%` }}>
                     <h1> Peronal Information </h1>
                     <div className="ui middle aligned divided list">
                         <div className="item">
 
                             <div className="content">
-                                <div className="header">Name</div>{user && <span>{user[0].fullName}</span>}
+                                <div className="header">Name</div>{user?.length>0 && <span>{user[0].fullName}</span>}
                             </div>
                         </div>
                         <div className="item">
                             <div className="content">
-                                <div className="header">Email</div>{user && <span>{user[0].email}</span>}
+                                <div className="header">Email</div>{user?.length>0 && <span>{user[0].email}</span>}
 
                             </div>
                         </div>
                         <div className="item">
                             <div className="content">
-                                <div className="header">MobileNumber</div>{user && <span>{user[0].mobileNumber}</span>}
+                                <div className="header">MobileNumber</div>{user?.length>0 && <span>{user[0].mobileNumber}</span>}
                             </div>
                         </div>
                     </div>
 
-                    <button className=' ui green button ' onClick={() => { if (props.books.length === 0) { props.lendedBooks(user[0].Id) } }}>Lended Books</button>
-                    <button className=' ui green button ' onClick={returnedBooks}>Returned Books</button>
-                </div>
+                    </div>
                 <div className='d-flex justify-content-md-between flex-column ui items ' style={{padding: `${10}px`,flexGrow:'4'}} >
-                    <LendedBooks />
+                   <table className='ui celled table'>
+                   <thead>   
+                    <tr>
+                        
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Fine</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                {books.map(book => {
+        const Duedate = new Date(book.Duedate.seconds*1000)
+        const today = new Date()
+        
+        
+
+        let fine = 0
+        let text = ''
+        let button = ''
+        if (!book.ReturnedOn){
+		 if (today.getTime()>Duedate.getTime()){
+		 	fine = (Math.floor((today.getTime() - Duedate.getTime())/(1000*60*60*24)))*10	
+            text = 'Return'
+            button = <button className=' ui green button ' onClick= {()=>{returnBook(book)
+				props.lendedBooks(user[0].Id)}} >{text}</button>
+		 }}else{fine = "N/A"
+                text = 'Returned'
+                button = <button className=' ui green button ' disabled >{text}</button> }
+                   return <tr>
+                    <td>{book.Title}</td>   
+                    <td>{book.Author}</td>   
+                    <td>{book.issuedOn}</td>   
+                    <td>{Duedate.toLocaleDateString()}</td>
+                    {book.ReturnedOn ? <td> {text}</td>:<td> Active</td> }
+                    <td>{fine}</td> 
+                    {<td>{button}</td>}  
+                   </tr>
+                })
+                }    
+                   </table>
                 </div>
-            </div>
+            </div> 
         </div>
 
 
@@ -99,15 +142,22 @@ const UserDetails = (props) => {
             </div> */}
     </>
 
-    )
+    )}}
+
+    return(<Redirect to ='/' />)
+
 }
 
 const mapStateToProps = state => {
-    console.log(state.searchResult)
+     console.log(state)
     return ({
+        data: state.userData,
         user: state.searchResult,
         books: state.lendBook
     })
 }
 
-export default connect(mapStateToProps, { search, lendedBooks, reset })(UserDetails)
+ 
+
+
+export default connect(mapStateToProps, { userSearch, lendedBooks })(UserDetails)

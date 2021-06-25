@@ -3,9 +3,11 @@ import Books from '../book.js'
 
 const AssignedBooks =()=>{
 
-	return  <>
+	return <div className='jumbotron'>
+	 <div className='card-deck '>
 	<Books id='Science'/>
-	</>
+	</div>
+	</div>
 }
 
 

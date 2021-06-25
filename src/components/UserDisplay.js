@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import Input from "./input";
-import { Fetching } from './hooks/userFetch.js'
+import React from 'react'
+
 import '../App.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
@@ -32,7 +31,6 @@ const UserDisplay = (props) => {
 			<h1> Peronal Information </h1>
 			<div className="ui middle aligned divided list">
 				<div className="item">
-
 					<div className="content">
 						<div className="header">Name</div>{user && <span>{user.fullName}</span>}
 					</div>
@@ -48,6 +46,11 @@ const UserDisplay = (props) => {
 						<div className="header">MobileNumber</div>{user && <span>{user.mobileNumber}</span>}
 					</div>
 				</div>
+				{user.totalFine > 0 && <div className="item">
+					<div className="content">
+						<div className="header">Total Fine</div>{user && <span>{user.totalFine}</span>}
+					</div>
+				</div>}
 			</div>
 
 		</div>

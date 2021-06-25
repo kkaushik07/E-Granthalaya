@@ -4,24 +4,31 @@ import CatFetch from './hooks/catFetch'
 
 const Card = (props) => {
 
-    return <div className="card">
 
-            <img  className='ui small image' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNUbJzHsKxJZMFOttSrteR5_KbuLk89kvhw&usqp=CAU"/>
+    const boxShadow = {
+    boxShadow: ` rgb(${0} ${32} ${249}) ${0}px ${1}px ${15}px ${4}px`
+    }
+    // return <> 
+    // {props.link ? <Link to={props.link} className="ui small card" >
+    //     <img className='' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNUbJzHsKxJZMFOttSrteR5_KbuLk89kvhw&usqp=CAU" />
 
-        <div class="content">
-        {props.link ? <Link to={props.link} >{props.genre}</Link> :<Link to={'/catagories/'+props.genre} >{props.genre}</Link>}
-        
-        </div>
-    </div>
+    //     <div class=" center aligned content">
+    //         {props.genre}</div></Link> : <Link to={'/catagories/' + props.genre} className="ui card">
+    //     <img className='' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNUbJzHsKxJZMFOttSrteR5_KbuLk89kvhw&usqp=CAU" />
 
-//     return <div class="card" style={{width: `${18}rem`}}>
-//         <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNUbJzHsKxJZMFOttSrteR5_KbuLk89kvhw&usqp=CAU" alt="Card image cap"/>
-//             <div class="card-body">
-//                 <h5 class="card-title">props.Title</h5>
-//                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-//                 <Link to={props.link} class="btn btn-primary">{props.work}</Link>
-//             </div>
-//   </div>
+    //     <div class="center aligned content">
+    //         {props.genre} </div></Link>}</>
+
+
+
+
+        return <div class="card" style={{maxWidth: `${12}rem`, boxShadow:boxShadow.boxShadow}}>
+            <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnNUbJzHsKxJZMFOttSrteR5_KbuLk89kvhw&usqp=CAU" alt="Card image cap"/>
+                <div class="card-body"  style={{maxWidth: `${12}rem`  }}>
+                    {props.Title && <h5 class="card-title">{props.Title}</h5> }
+                    {props.work ? <button onClick={props.onClick} className="btn btn-primary"  style={{maxWidth: `${12}rem`  }}>{props.work}</button>:<Link to={ props.link} className="btn btn-primary"  style={{maxWidth: `${12}rem` , margin:'auto' }}>{props.genre}</Link>}
+                </div>
+      </div>
 }
 
 export default Card

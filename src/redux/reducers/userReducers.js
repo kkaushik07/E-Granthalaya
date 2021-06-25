@@ -38,7 +38,7 @@ const lendedBookReducer = (result = [],action)=>{
 const persistConfig ={
   key:'root',
   storage,
-  whitelist:['userData','lendBook','searchResult']
+  whitelist:['userData']
 }
 
 const reducers = combineReducers({

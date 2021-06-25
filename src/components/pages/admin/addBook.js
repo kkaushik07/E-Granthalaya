@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import addBook from '../../hooks/addbook'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+import {addBook} from '../../hooks/booksHook'
 import Input from '../../input'
 
-const AddBook = () => {
+const AddBook = (props) => {
 
+    const user = props.data
     const boxShadow = {boxShadow: `${0} ${4}px ${8}px ${0} rgba(${0}, ${0}, ${0}, ${0.2}),
 	 ${0} ${6}px ${20}px ${0} rgba(${0}, ${0}, ${0}, ${0.19})` }
 
@@ -24,10 +27,11 @@ const AddBook = () => {
         e.preventDefault()
         addBook(values)
     }
-
+    if (user) {
+		if (user.hasOwnProperty('admin')){
     return  <div className='d-flex flex-column justify-content-center ui center aligned container  '  style={{ height: `${80}vh`,width:`${50}vw`}} >
         <form onSubmit={handleFormSubmit} className='ui form '  style={{padding:`${1.5}rem`, boxShadow:boxShadow.boxShadow}}>
-            <h1 style={{ color :'white' ,  fontSize:`${3}rem` ,textShadow:`${-2}px ${2}px ${10}px green` }}>Add Book</h1>
+            <h1 style={{ color :'green' ,  fontSize:`${3}rem`  }}>Add Book</h1>
             <div className=' field ' style={boxShadow} >
                 <Input
                     name='Title'
@@ -68,7 +72,14 @@ const AddBook = () => {
             <button type="submit" className='ui green submit button ' >Add Book</button>
         
         </form>
-    </div>
+    </div>}}
+
+return(<Redirect to ='/' />)
 }
 
-export default AddBook
+const mapStateToProps = state => {
+	console.log(state)
+	return { data: state.userData }
+}
+
+export default connect(mapStateToProps)(AddBook)

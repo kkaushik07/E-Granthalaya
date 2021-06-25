@@ -1,7 +1,8 @@
 import {useEffect} from 'react'
 import { connect } from 'react-redux'
-import { lendedBooks } from '../redux/actions/fetchUser.js'
-import { returnBook } from './hooks/addbook.js'
+import { useHistory } from 'react-router-dom'
+import { lendedBooks , fetchUser } from '../redux/actions/fetchUser.js'
+import  {sendFine , returnBook}   from './hooks/booksHook'
 import Item from './itemDisplay.js'
 
 const style = {
@@ -16,7 +17,19 @@ const style = {
 }
 
 const LendedBooks = (props)=>{
-	
+	let user = props.user
+	let  totalFine = 0
+
+	useEffect(()=>{
+		props.lendedBooks(user.Id)
+	},[])
+	useEffect(()=>{
+	sendFine({totalFine, Id:user.Id})
+	props.fetchUser(user.Id)
+	},[totalFine])
+
+	const history = useHistory()
+	const navigateTo = () => history.push('/catagory')
 	const books = props.books
 
 	const boxShadow = {boxShadow: `${0} ${4}px ${8}px ${0} rgba(${0}, ${0}, ${0}, ${0.2}),
@@ -24,13 +37,18 @@ const LendedBooks = (props)=>{
 	
 	return books.map( doc => {
 		if (!doc.ReturnedOn ){
-		// const Duedate = doc.Duedate
-		const today = new Date().getTime()
+			// console.log(doc.Duedate)
+			// console.log(typeof doc.Duedate)
+			// console.log( )
+
+		const Duedate = new Date(doc.Duedate.seconds*1000)
+		const today = new Date()
 		 
-		// let fine = 0
-		// if (today>Duedate){
-		// 	fine = ((today - Duedate)/(1000*60*60*24))*10
-		// }
+		 let fine = 0
+		 if (today.getTime()>Duedate.getTime()){
+		 	fine = (Math.floor((today.getTime() - Duedate.getTime())/(1000*60*60*24)))*10
+			totalFine = totalFine+fine
+		 }
 		
 		
 		
@@ -38,8 +56,8 @@ const LendedBooks = (props)=>{
 			
 			
 			<Item Title={doc.Title} Author={doc.Author}
-			//  Duedate={doc.Duedate}
-			//  Fine ={fine}
+			 Duedate={Duedate.toLocaleDateString()}
+			  Fine ={fine}
 			/>
 			 
 
@@ -53,9 +71,10 @@ const LendedBooks = (props)=>{
 			  <div className="header">{fine}</div> */}
 
 			 
-			<button className='ui right violet button' style={{height:`${50}px`,width:`${110}px`, margin:'auto' }}  onClick={()=>{console.log(doc.issueId)
+			<button className='ui right violet button' style={{height:`${50}px`,width:`${110}px`, margin:'auto' }}  onClick={()=>{ 
+				if(fine>0){navigateTo()}else{
 				returnBook(doc)
-				props.lendedBooks(doc.UserId)}
+				props.lendedBooks(doc.UserId)}}
 			} >Return</button>
 			  </div>
 			
@@ -67,7 +86,8 @@ const LendedBooks = (props)=>{
 
 const mapStateToProps = state=>{
 	console.log(state)
-	return {books: state.lendBook }
+	return {books: state.lendBook ,
+			user: state.userData}
 }
 
-export default connect(mapStateToProps,{lendedBooks})(LendedBooks)
+export default connect(mapStateToProps,{lendedBooks , fetchUser})(LendedBooks)

@@ -40,14 +40,18 @@ export const createUser = (values) => {
 }
 
 export const search = (item) => {
+    console.log('search')
     return async function (dispatch, getState) {
+
         var query = projectFirestore.collection(item.collection).where(item.criteria, '==', item.name)
 
         var result = await query.get().then((querySnapshot) => {
             const data = []
-            querySnapshot.forEach(doc =>{ const doct = doc.data()
+            querySnapshot.forEach(doc => {
+                const doct = doc.data()
                 doct.Id = doc.id
-                data.push(doct)})
+                data.push(doct)
+            })
             return data
         })
 
@@ -58,11 +62,13 @@ export const search = (item) => {
 
 
 export const fetchUser = (x) => {
+
     return async function (dispatch, getState) {
         var docRef = projectFirestore.collection("users").doc(x);
-        var result = await docRef.get(x).then((doc) => {const doct = doc.data()
-                    doct.Id = x
-                    return doct
+        var result = await docRef.get(x).then((doc) => {
+            const doct = doc.data()
+            doct.Id = x
+            return doct
         }
         )
 
@@ -79,7 +85,10 @@ export const signOut = () => {
 }
 
 export const lendedBooks = (x) => {
+    console.log('lend', x)
     return async function (dispatch, getState) {
+
+
         var query = projectFirestore.collection('issueBooks').where('UserId', '==', x)
 
         var result = await query.get().then((querySnapshot) => {
@@ -89,17 +98,53 @@ export const lendedBooks = (x) => {
                 book.issueId = doc.id
                 data.push(book)
             })
+            console.log(data)
             return data
         })
 
         dispatch({ type: 'LEND_BOOK', payload: result })
+        
     }
 }
 
-export const reset = (x)=>{
-    return{
+export const userSearch = (item) => {
+    return async function (dispatch, getState) {
+
+        const data=[]
+        var query = projectFirestore.collection(item.collection).where(item.criteria, '==', item.name)
+        let Id
+        var result = await query.get().then((querySnapshot) => {
+            querySnapshot.forEach(doc => {
+                const doct = doc.data()
+                Id = doc.id
+                doct.Id = doc.id
+                data.push(doct)
+            })
+
+
+            let query = projectFirestore.collection('issueBooks').where('UserId', '==', Id)
+
+            return  query.get().then((querySnapshot) => {
+                const data = []
+                querySnapshot.forEach(doc => {
+                    const book = doc.data()
+                    book.issueId = doc.id
+                    data.push(book)
+                })
+                return data
+            })
+        })
+        dispatch({ type: 'LEND_BOOK', payload: result })
+        dispatch({ type: 'SEARCH', payload: data })
+    }
+}
+
+
+
+export const reset = (x) => {
+    return {
         type: x,
-        payload:[]
+        payload: []
     }
 }
 
