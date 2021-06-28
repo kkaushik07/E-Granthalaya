@@ -7,7 +7,8 @@ const BooksLot = (props) => {
     const { docs } = FetchingBooks('books')
 
     useEffect (()=>{
-        setSortedDocs(docs)
+        const docs1 = docs.sort(dynamicSort('Title'))
+        setSortedDocs(docs1)
     },[docs])
 
     
@@ -32,22 +33,22 @@ const BooksLot = (props) => {
 
     console.log('docs', docs)
 
+     const handleClick = (x) =>{
+        let sort = docs.sort(dynamicSort(x))
+        setSortedDocs([...sort])
+     }
+
+
 
     return <div className='jumbotron'>
         <table className='ui celled table'>
             <thead>
                 <tr>
 
-                    <th onClick={() => {
-                        let sort = docs.sort(dynamicSort('Title'))
-                        setSortedDocs(sort)
-                    }} >Title</th>
-                    <th onClick={() => {
-                        let sort = docs.sort(dynamicSort('Author'))
-                        setSortedDocs(sort)
-                    }} >Author</th>
-                    <th onClick={() => { docs.sort(dynamicSort('Quantity')) }} >Quantity Available</th>
-                    <th onClick={() => { docs.sort(dynamicSort('Genre')) }}>Genre</th>
+                    <th onClick={() => { handleClick('Title')   }} >Title</th>
+                    <th onClick={() => { handleClick('Author') }} >Author</th>
+                    <th onClick={() => { handleClick('Genre')  }}>Genre</th>
+                    <th onClick={() => { handleClick('Quantity')}} >Quantity Available</th>
                 </tr>
             </thead>
             {sortedDocs.map(doc => {

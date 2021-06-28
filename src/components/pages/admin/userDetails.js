@@ -22,7 +22,12 @@ const UserDetails = (props) => {
         boxShadow: `${0} ${4}px ${8}px ${0} rgba(${0}, ${0}, ${0}, ${0.2}),
     ${0} ${6}px ${20}px ${0} rgba(${0}, ${0}, ${0}, ${0.19})`
     }
-    const books = props.books
+
+    function compare(a, b) {
+        var result = (a.issuedOn < b.issuedOn) ? -1 : (a.issuedOn > b.issuedOn) ? 1 : 0;
+        return result
+    }
+    const books = (props.books).sort(compare).reverse()
     const user = props.user
        
 
@@ -104,11 +109,13 @@ const UserDetails = (props) => {
         let text = ''
         let button = ''
         if (!book.ReturnedOn){
-		 if (today.getTime()>Duedate.getTime()){
-		 	fine = (Math.floor((today.getTime() - Duedate.getTime())/(1000*60*60*24)))*10	
             text = 'Return'
             button = <button className=' ui green button ' onClick= {()=>{returnBook(book)
 				props.lendedBooks(user[0].Id)}} >{text}</button>
+		 if (today.getTime()>Duedate.getTime()){
+		 	fine = (Math.floor((today.getTime() - Duedate.getTime())/(1000*60*60*24)))*10	
+            
+           
 		 }}else{fine = "N/A"
                 text = 'Returned'
                 button = <button className=' ui green button ' disabled >{text}</button> }
