@@ -24,10 +24,10 @@ export const createUser = (values) => {
                 projectFirestore.collection('users')
                     .doc(projectAuth.currentUser.uid)
                     .set({
-                        fullName, email, mobileNumber, password, address
+                        fullName, email, mobileNumber, password, address , Id: projectAuth.currentUser.uid
                     })
                     .catch(err => console.log(err))
-                return { fullName, email, mobileNumber, password, address }
+                return { fullName, email, mobileNumber, address, Id:projectAuth.currentUser.uid }
             }).catch(err => console.log(err))
 
         console.log(user)
@@ -67,7 +67,6 @@ export const fetchUser = (x) => {
         var docRef = projectFirestore.collection("users").doc(x);
         var result = await docRef.get(x).then((doc) => {
             const doct = doc.data()
-            doct.Id = x
             return doct
         }
         )

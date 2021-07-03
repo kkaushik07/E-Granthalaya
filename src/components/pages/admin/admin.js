@@ -23,7 +23,7 @@ const AdminHome = (props)=>{
 
 }
 const mapStateToProps = state => {
-	console.log(state)
+
 	return { data: state.userData }
 }
 

@@ -17,14 +17,7 @@ const UserDisplay = (props) => {
 		return <Redirect to='/signup' />
 	}
 
-	// 	return	Object.keys(props.user).map((key) => <div>  <h2> {key}: {props.user[key]}</h2>
-	// 			{/* <Input name={key}
-	// 			label={key}
-	// 			placeholder={key}
-	// 			id={key}
-	// 			value={user[key]}
-	// onChange={handleInputChange} /> } */}
-	// 		 <a><i className="fas fa-pencil-alt" onClick={()=>SetEdit(key)} ></i></a></div>);
+
 
 	return (<>
 		<div className=' mr-auto' style={{ marginTop: `${30}px`, padding: `${10}px`, boxShadow: boxShadow.boxShadow, height: `${100}%` }}>
@@ -60,7 +53,7 @@ const UserDisplay = (props) => {
 }
 
 const mapStateToProps = state => {
-	console.log(state)
+
 	return { user: state.userData }
 }
 

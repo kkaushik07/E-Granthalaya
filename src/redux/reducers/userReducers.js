@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import {persistReducer} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { projectAuth, projectFirestore } from "../../firebase/config";
 
 const userReducer =  (user = null, action) => {
 

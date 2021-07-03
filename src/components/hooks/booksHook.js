@@ -1,13 +1,23 @@
 import firebase from 'firebase'
 import { useState,useEffect } from 'react'
-import { projectAuth, projectFirestore } from "../../firebase/config"
+import { projectStorage, projectFirestore } from "../../firebase/config"
 
 
-export const addBook = (values)=>{
-    const{ Title,Author,Genre,Quantity} = values 
-   projectFirestore.collection('books').doc().set({
-    Title,Author,Genre,Quantity
-   }).then(()=>{alert(Title+"added")})
+
+export const AddBooks = async (values)=>{
+
+  
+
+    const{ Title,Author,Genre,Quantity,Cover} = values 
+    const storageRef = projectStorage.ref(Cover.name) 
+    storageRef.put(Cover).then(async()=>{
+     const url = await storageRef.getDownloadURL();
+
+      await projectFirestore.collection('books').doc().set({
+        Title,Author,Genre,Quantity, url
+       }).then(()=>{alert(Title+"added")})
+
+    })
 }
 
 export const lendBook = (values) => {

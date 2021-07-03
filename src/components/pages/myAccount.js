@@ -7,7 +7,7 @@ const Account = () => {
      function Fine (netFine){
          setTotalFine(netFine)
      }
-     console.log(totalFine)
+   
     return  <div style={{margin:`${25}px`}}>
      <div className='d-flex flex-row ' style={{ marginTop: `${30}px`}}>
         <UserDisplay />

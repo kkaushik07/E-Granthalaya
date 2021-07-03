@@ -1,14 +1,14 @@
 import Books from '../book.js'
 
 
-const AssignedBooks =()=>{
+const Fiction =()=>{
 
 	return <div className='jumbotron'>
-	 <div className='card-deck '>
-	<Books id='Science'/>
+	 <div className='ui cards '>
+	<Books id='Fiction'/>
 	</div>
 	</div>
 }
 
 
-export default AssignedBooks
+export default Fiction

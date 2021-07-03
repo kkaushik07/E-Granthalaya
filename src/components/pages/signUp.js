@@ -140,7 +140,7 @@ const Signup = (props) => {
 }
 
 const mapStateToProps = (state) => {
-	console.log('state: ', state)
+
 	return { data: state.userData }
 }
 

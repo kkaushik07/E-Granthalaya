@@ -8,20 +8,16 @@ import { signOut } from '../redux/actions/fetchUser';
 
 const Header = (props) => {
 
-	// const [isLoggedIn,setIsLoggedIn] = useState()
-	// const [admin, setAdmin]=useState()
+
 	
 	const user = props.data
-	// projectAuth.onAuthStateChanged(function(user){
-	// 	if(user){setIsLoggedIn(true)}
-	// 	else{setIsLoggedIn(false)}
-	// })
+
 
 	const signOut = () => {
 		SignOut()
 		props.signOut()
 	}
-	console.log(props.data)
+	
 
 	if (user) {
 		if (user.hasOwnProperty('admin')) {
@@ -49,7 +45,7 @@ const Header = (props) => {
 			<Link to='/' className='item'>
 				<i className="home icon"></i>
 					    Home</Link>
-			<Link to='/catagory' className='item'> <i className='th icon'></i> Catagory</Link>
+			<Link to='/category' className='item'> <i className='th icon'></i> Category</Link>
 			<Link to={user ? '/my-account' : '/signup'} className='item'> <i className='user icon'></i>My Account </Link>
 			{/* {user && <Link to='/assignedbooks' className='item'>Assigned Books</Link>} */}
 			{!user && <Link to='/signup' className='right item'><i className='sign in alternate icon'></i> SignIn </Link>}
@@ -61,7 +57,7 @@ const Header = (props) => {
 }
 
 const mapStateToProps = state => {
-	console.log(state)
+
 	return { data: state.userData }
 }
 

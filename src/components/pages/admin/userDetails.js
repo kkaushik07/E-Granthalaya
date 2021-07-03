@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { connect } from "react-redux"
 import {returnBook} from '../../hooks/booksHook'
 import { userSearch, lendedBooks, reset } from "../../../redux/actions/fetchUser"
@@ -55,7 +55,7 @@ const UserDetails = (props) => {
                 <button className='ui green submit button ' onClick={  () => {
                      
                     props.userSearch({ name, collection: 'users', criteria: 'email' })
-                    // console.log('from button',user[0])
+                   
                      //props.lendedBooks(user[0].Id)    
                 }}>userSearch</button>
             </div>
@@ -136,17 +136,7 @@ const UserDetails = (props) => {
         </div>
 
 
-        {/* < div >
-                <h3>Name:</h3>
-                {user && <h3>{user[0].fullName}</h3>}
-                <h3>Email:</h3>
-                {user && <h3>{user[0].email}</h3>}
-                <h3>MobileNumber:</h3>
-                {user && <h3>{user[0].mobileNumber}</h3>}
-                <button onClick={() => { if (props.books.length === 0) { props.lendedBooks(user[0].Id) } }}>Lended Books</button>
-                <button onClick={returnedBooks}>Returned Books</button>
-                <LendedBooks />
-            </div> */}
+       
     </>
 
     )}}
@@ -156,7 +146,7 @@ const UserDetails = (props) => {
 }
 
 const mapStateToProps = state => {
-     console.log(state)
+
     return ({
         data: state.userData,
         user: state.searchResult,

@@ -21,6 +21,7 @@ const LendedBooks = (props)=>{
 	let  totalFine = 0
 
 	useEffect(()=>{
+		console.log(user)
 		props.lendedBooks(user.Id)
 	},[])
 	useEffect(()=>{
@@ -29,7 +30,7 @@ const LendedBooks = (props)=>{
 	},[totalFine])
 
 	const history = useHistory()
-	const navigateTo = () => history.push('/catagory')
+	const navigateTo = () => history.push('/category')
 	const books = props.books
 
 	const boxShadow = {boxShadow: `${0} ${4}px ${8}px ${0} rgba(${0}, ${0}, ${0}, ${0.2}),
@@ -37,9 +38,7 @@ const LendedBooks = (props)=>{
 	
 	return books.map( doc => {
 		if (!doc.ReturnedOn ){
-			// console.log(doc.Duedate)
-			// console.log(typeof doc.Duedate)
-			// console.log( )
+			
 
 		const Duedate = new Date(doc.Duedate.seconds*1000)
 		const today = new Date()
@@ -61,15 +60,7 @@ const LendedBooks = (props)=>{
 			/>
 			 
 
-			 {/* <img className="ui small image" 
-			 src='yeah.jpeg' alt='bookimg' />
-			 <div className="content" style={{border:`${2}px solid black` , margin:`${4}px`}}>
-			  <div className="header">{doc.Title}</div>
-			  <div className="header">{doc.Author}</div>
-			  <div className="header">{doc.issuedOn}</div>
-			  <div className="header">{doc.Duedate.toDate().toLocaleDateString()}</div>
-			  <div className="header">{fine}</div> */}
-
+	
 			 
 			<button className='ui right violet button' style={{height:`${50}px`,width:`${110}px`, margin:'auto' }}  onClick={()=>{ 
 				if(fine>0){navigateTo()}else{
@@ -85,7 +76,7 @@ const LendedBooks = (props)=>{
 }
 
 const mapStateToProps = state=>{
-	console.log(state)
+
 	return {books: state.lendBook ,
 			user: state.userData}
 }

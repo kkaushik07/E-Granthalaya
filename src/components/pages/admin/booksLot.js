@@ -15,23 +15,14 @@ const BooksLot = (props) => {
     
     const [sortedDocs, setSortedDocs] = useState([])
 
-   
-    console.log('sortedDocs',sortedDocs)
-    
-  
-
     function dynamicSort(property) {
-
-        console.log(property)
 
         return function compare(a, b) {
             var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-           console.log(property)
             return result
         }
     }
 
-    console.log('docs', docs)
 
      const handleClick = (x) =>{
         let sort = docs.sort(dynamicSort(x))
@@ -44,8 +35,7 @@ const BooksLot = (props) => {
         <table className='ui celled table'>
             <thead>
                 <tr>
-
-                    <th onClick={() => { handleClick('Title')   }} >Title</th>
+                   <th onClick={() => { handleClick('Title')   }} >Title</th>
                     <th onClick={() => { handleClick('Author') }} >Author</th>
                     <th onClick={() => { handleClick('Genre')  }}>Genre</th>
                     <th onClick={() => { handleClick('Quantity')}} >Quantity Available</th>
